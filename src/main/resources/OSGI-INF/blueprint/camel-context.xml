@@ -8,6 +8,11 @@
 http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 ">
 
     <bean id="mainRouteBuilder" class="eu.nyerel.camelidea.test.route.MainRouteBuilder"/>
+    <bean id="testBean" class="eu.nyerel.camelidea.test.route.TestBean"/>
+
+    <bean id="beanWithDependency" class="eu.nyerel.camelidea.test.route.BeanWithDependency">
+        <property name="testBean" ref="testBean"/>
+    </bean>
 
     <camelContext xmlns="http://camel.apache.org/schema/blueprint">
 
@@ -16,23 +21,55 @@ http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 ">
         <routeBuilder ref="mainRouteBuilder"/>
 
         <route>
-            <from uri="direct:a"/>
+            <from uri="direct:abc?xd"/>
+            <to uri="direct:LALAxxaaa"/>
+            <bean ref="testBean"/>
+        </route>
+
+        <route>
+            <from uri="direct:LALA"/>
+            <to uri="direct:LALA"/>
+            <to uri="direct:caca32"/>
+            <to uri="direct:caca32"/>
+            <to uri="direct:secondLALA?haha=true"/>
+            <to uri="direct:caca32"/>
+            <to uri="direct:caca32"/>
             <to uri="direct:b"/>
+            <choice>
+                <when>
+                    <simple>${header.abc} == 'abc'</simple>
+                    <to uri="direct:caca32"/>
+                </when>
+                <otherwise>
+                    <to uri="direct:LALA"/>
+                </otherwise>
+            </choice>
+            <to uri="direct:LALA?synchronous=true"/>
         </route>
 
         <route>
             <from uri="direct:b"/>
-            <to uri="direct:c"/>
-        </route>
-
-        <route>
-            <from uri="direct:c"/>
             <log message="ahoj"/>
         </route>
 
         <route>
-            <from uri="direct:d"/>
-            <to uri="direct:c"/>
+            <from uri="direct:caca32"/>
+            <to uri="direct:caca32"/>
+        </route>
+
+        <route>
+            <from uri="direct:xyz"/>
+            <to uri="direct:xyz"/>
+        </route>
+
+        <route>
+            <from uri="direct:LALA"/>
+            <to uri="direct:caca32"/>
+            <to uri="direct:caca32"/>
+            <to uri="direct:caca32"/>
+            <to uri="direct:caca32"/>
+            <to uri="direct:caca32"/>
+            <to uri="direct:LALA"/>
         </route>
 
     </camelContext>

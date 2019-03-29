@@ -8,17 +8,21 @@
     <artifactId>camel-idea-test</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <camel.version>2.17.0</camel.version>
+    </properties>
+
     <dependencies>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
-            <version>2.17.0</version>
+            <version>${camel.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-blueprint</artifactId>
-            <version>2.17.0</version>
+            <version>${camel.version}</version>
         </dependency>
 
     </dependencies>

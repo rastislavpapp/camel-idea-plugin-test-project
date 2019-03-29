@@ -1,9 +1,8 @@
 package eu.nyerel.camelidea.test.route;
 
 import org.apache.camel.BeanInject;
-import org.apache.camel.builder.RouteBuilder;
 
-public class MainRouteBuilder extends RouteBuilder {
+public class MainRouteBuilder extends AbstractRouteBuilder {
 
     public static final String DIRECT_LALA = "direct:LALA";
 
@@ -11,18 +10,30 @@ public class MainRouteBuilder extends RouteBuilder {
     private TestBean testBean;
 
     public void configure() throws Exception {
-        from("direct:LALA")
-                .to("direct:a");
+        from("direct:LALA?synchronous=false")
+                .to("direct:abc?heh=false&something=else");
 
-        from("direct:seconLALA")
+
+        from("direct:LALA")
+                .to("direct:abc?attr=value");
+
+        from("direct:secondLALA")
+                .to("direct:LALA")
                 .to(DIRECT_LALA);
 
         from("direct:thirdLALA")
-                .to("direct:seconLALA");
+                .to("direct:LALA");
+
+        from("direct:aaabc")
+                .to("direct:aaabc");
 
         from("direct:thirdLALA")
-                .to("direct:LALA")
+                .to("")
                 .bean(testBean, "ahoj")
+                .to(DIRECT_LALA)
+                .to(DIRECT_LALA)
+                .to(DIRECT_LALA)
+                .to(DIRECT_LALA)
                 .to(DIRECT_LALA);
 
 
